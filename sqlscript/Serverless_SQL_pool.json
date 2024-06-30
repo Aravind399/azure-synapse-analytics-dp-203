@@ -1,0 +1,17 @@
+{
+	"name": "Serverless_SQL_pool",
+	"properties": {
+		"content": {
+			"query": "-- createing database\nCREATE database aravind;\n----------------------------------------------------------------------\n\n-- before creating database scop cred , create database master key\nCREATE MASTER KEY ENCRYPTION BY\nPASSWORD = 'Ai@304491';\n\n----------------------------------------------------------------------------------------------------------------------------------------------------------\n--- before careating external data source , give credential to access data continer \nCREATE DATABASE SCOPED CREDENTIAL databasecred1\nWITH \nIDENTITY = 'SHARED ACCESS SIGNATURE',\nSECRET = 'sp=rl&st=2024-06-30T05:26:43Z&se=2024-06-30T13:26:43Z&spr=https&sv=2022-11-02&sr=c&sig=%2BB2VNKCkRFnGtbSKsAN%2FuACM04Xjki9nLd0nK5wOks0%3D'\n\n-------------------------------------------------------------------------------------------------------------------------------------------------------- --\n\n--- creating storage source for azure datalake  \nCREATE EXTERNAL DATA SOURCE extdatasource2\nWITH(\n    LOCATION = 'https://aa4491synapsstorage.blob.core.windows.net/csv', --- location for continer\n    CREDENTIAL = databasecred1\n);\n\n------------------------------------------------------------------------------------------------------------\n\n-- create external file formate for csv/parquet/json,etc,,,,.,\n\nCREATE EXTERNAL FILE FORMAT csvfileformate\nWITH(\n    FORMAT_TYPE = DELIMITEDTEXT,\n    FORMAT_OPTIONS(\n        FIELD_TERMINATOR = ',',\n        FIRST_ROW = 2 --first row as header\n    )\n);\n\n----------------------------------------------------------------------------------------\n\n-- creating external serverless table(Built-in serverless pool)\n\nCREATE EXTERNAL TABLE aravindlogdata1\n(\n    [CorrelationId] NVARCHAR(36),\n    [OperationName] NVARCHAR(255),\n    [Status] NVARCHAR(50),\n    [EventCategory] NVARCHAR(50),\n    [Level] NVARCHAR(50),\n    [Time] DATETIME2,\n    [Subscription] NVARCHAR(50),\n    [EventInitiatedBy] NVARCHAR(255),\n    [ResourceType] NVARCHAR(255),\n    [ResourceGroup] NVARCHAR(255),\n    [Resource] NVARCHAR(500)\n)\nWITH(\n    LOCATION = 'Log.csv', --file name\n    DATA_SOURCE = extdatasource2,\n    FILE_FORMAT = csvfileformate\n);\n\n\n\nSELECT * FROM aravindlogdata1;\n\n\n\n\n\n \n\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "aravind",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

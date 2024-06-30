@@ -1,0 +1,63 @@
+{
+	"name": "DestinationDataset_hxt",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSynapseAnalytics1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "CorrelationId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OperationName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Status",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EventCategory",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Level",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Time",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "Subscription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EventInitiatedBy",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ResourceType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ResourceGroup",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Resource",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "logdatapipeline"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}
